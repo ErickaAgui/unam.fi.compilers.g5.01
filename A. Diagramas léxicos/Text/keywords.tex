@@ -1,0 +1,349 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{automata,arrows.meta}
+
+\tikzset{
+    >=Stealth,
+    every state/.style={
+        minimum size=5.5mm,
+        inner sep=0.4pt,
+        font=\tiny
+    }
+}
+
+\begin{document}
+
+\begin{tikzpicture}[
+    ->,
+    font=\tiny,
+    initial text=start,
+    initial distance=3mm,
+    branchlabel/.style={
+        font=\scriptsize,
+        fill=white,
+        inner sep=1.2pt
+    }
+]
+
+% Move q0 farther to the left so the outgoing edges have more space
+\node[state,initial] (q0) at (-4,-11.74) {$q_{0}$};
+
+
+\node[state] (q1) at (0.5,0.00) {$q_{1}$};
+\node[state] (q2) at (2.50,0.00) {$q_{2}$};
+\node[state] (q3) at (3.75,0.00) {$q_{3}$};
+\node[state] (q4) at (5.00,0.00) {$q_{4}$};
+\node[state] (q5) at (6.25,0.00) {$q_{5}$};
+\node[state] (q6) at (7.50,0.00) {$q_{6}$};
+\node[state,accepting] (q7) at (8.75,0.00) {$q_{7}$};
+\node[state] (q8) at (1.1,-0.72) {$q_{8}$};
+\node[state] (q9) at (2.50,-0.72) {$q_{9}$};
+\node[state] (q10) at (3.75,-0.72) {$q_{10}$};
+\node[state,accepting] (q11) at (5.00,-0.72) {$q_{11}$};
+\node[state] (q12) at (1.3,-1.80) {$q_{12}$};
+\node[state] (q13) at (2.50,-1.44) {$q_{13}$};
+\node[state] (q14) at (3.75,-1.44) {$q_{14}$};
+\node[state,accepting] (q15) at (5.00,-1.44) {$q_{15}$};
+\node[state] (q16) at (2.50,-2.16) {$q_{16}$};
+\node[state] (q17) at (3.75,-2.16) {$q_{17}$};
+\node[state] (q18) at (5.00,-2.16) {$q_{18}$};
+\node[state,accepting] (q19) at (6.25,-2.16) {$q_{19}$};
+\node[state] (q20) at (1.25,-3.72) {$q_{20}$};
+\node[state] (q21) at (2.50,-2.88) {$q_{21}$};
+\node[state] (q22) at (3.75,-2.88) {$q_{22}$};
+\node[state,accepting] (q23) at (5.00,-2.88) {$q_{23}$};
+\node[state] (q24) at (2.50,-3.60) {$q_{24}$};
+\node[state] (q25) at (3.75,-3.60) {$q_{25}$};
+\node[state,accepting] (q26) at (5.00,-3.60) {$q_{26}$};
+\node[state] (q27) at (2.50,-4.68) {$q_{27}$};
+\node[state] (q28) at (3.75,-4.68) {$q_{28}$};
+\node[state] (q29) at (5.00,-4.32) {$q_{29}$};
+\node[state,accepting] (q30) at (6.25,-4.32) {$q_{30}$};
+\node[state] (q31) at (5.00,-5.04) {$q_{31}$};
+\node[state] (q32) at (6.25,-5.04) {$q_{32}$};
+\node[state] (q33) at (7.50,-5.04) {$q_{33}$};
+\node[state] (q34) at (8.75,-5.04) {$q_{34}$};
+\node[state,accepting] (q35) at (10.00,-5.04) {$q_{35}$};
+\node[state] (q36) at (1.25,-6.12) {$q_{36}$};
+\node[state] (q37) at (2.50,-5.76) {$q_{37}$};
+\node[state] (q38) at (3.75,-5.76) {$q_{38}$};
+\node[state] (q39) at (5.00,-5.76) {$q_{39}$};
+\node[state] (q40) at (6.25,-5.76) {$q_{40}$};
+\node[state] (q41) at (7.50,-5.76) {$q_{41}$};
+\node[state,accepting] (q42) at (8.75,-5.76) {$q_{42}$};
+\node[state,accepting] (q43) at (2.50,-6.48) {$q_{43}$};
+\node[state] (q44) at (3.75,-6.48) {$q_{44}$};
+\node[state] (q45) at (5.00,-6.48) {$q_{45}$};
+\node[state] (q46) at (6.25,-6.48) {$q_{46}$};
+\node[state,accepting] (q47) at (7.50,-6.48) {$q_{47}$};
+\node[state] (q48) at (1.25,-7.92) {$q_{48}$};
+\node[state] (q49) at (2.50,-7.20) {$q_{49}$};
+\node[state] (q50) at (3.75,-7.20) {$q_{50}$};
+\node[state,accepting] (q51) at (5.00,-7.20) {$q_{51}$};
+\node[state] (q52) at (2.50,-7.92) {$q_{52}$};
+\node[state] (q53) at (3.75,-7.92) {$q_{53}$};
+\node[state,accepting] (q54) at (5.00,-7.92) {$q_{54}$};
+\node[state] (q55) at (2.50,-8.64) {$q_{55}$};
+\node[state] (q56) at (3.75,-8.64) {$q_{56}$};
+\node[state] (q57) at (5.00,-8.64) {$q_{57}$};
+\node[state] (q58) at (6.25,-8.64) {$q_{58}$};
+\node[state,accepting] (q59) at (7.50,-8.64) {$q_{59}$};
+\node[state] (q60) at (1.25,-9.72) {$q_{60}$};
+\node[state] (q61) at (2.50,-9.36) {$q_{61}$};
+\node[state] (q62) at (3.75,-9.36) {$q_{62}$};
+\node[state] (q63) at (5.00,-9.36) {$q_{63}$};
+\node[state,accepting] (q64) at (6.25,-9.36) {$q_{64}$};
+\node[state] (q65) at (2.50,-10.08) {$q_{65}$};
+\node[state,accepting] (q66) at (3.75,-10.08) {$q_{66}$};
+\node[state] (q67) at (1.25,-10.80) {$q_{67}$};
+\node[state] (q68) at (2.50,-10.80) {$q_{68}$};
+\node[state] (q69) at (3.75,-10.80) {$q_{69}$};
+\node[state,accepting] (q70) at (5.00,-10.80) {$q_{70}$};
+\node[state] (q71) at (1.25,-11.88) {$q_{71}$};
+\node[state,accepting] (q72) at (2.50,-11.52) {$q_{72}$};
+\node[state] (q73) at (2.50,-12.24) {$q_{73}$};
+\node[state,accepting] (q74) at (3.75,-12.24) {$q_{74}$};
+\node[state] (q75) at (1.25,-12.96) {$q_{75}$};
+\node[state] (q76) at (2.50,-12.96) {$q_{76}$};
+\node[state] (q77) at (3.75,-12.96) {$q_{77}$};
+\node[state,accepting] (q78) at (5.00,-12.96) {$q_{78}$};
+\node[state] (q79) at (1.25,-13.68) {$q_{79}$};
+\node[state] (q80) at (2.50,-13.68) {$q_{80}$};
+\node[state] (q81) at (3.75,-13.68) {$q_{81}$};
+\node[state] (q82) at (5.00,-13.68) {$q_{82}$};
+\node[state,accepting] (q83) at (6.25,-13.68) {$q_{83}$};
+\node[state,accepting] (q84) at (7.50,-13.68) {$q_{84}$};
+\node[state] (q85) at (1.25,-14.76) {$q_{85}$};
+\node[state] (q86) at (2.50,-14.76) {$q_{86}$};
+\node[state] (q87) at (3.75,-14.40) {$q_{87}$};
+\node[state] (q88) at (5.00,-14.40) {$q_{88}$};
+\node[state] (q89) at (6.25,-14.40) {$q_{89}$};
+\node[state] (q90) at (7.50,-14.40) {$q_{90}$};
+\node[state] (q91) at (8.75,-14.40) {$q_{91}$};
+\node[state,accepting] (q92) at (10.00,-14.40) {$q_{92}$};
+\node[state] (q93) at (3.75,-15.12) {$q_{93}$};
+\node[state] (q94) at (5.00,-15.12) {$q_{94}$};
+\node[state] (q95) at (6.25,-15.12) {$q_{95}$};
+\node[state,accepting] (q96) at (7.50,-15.12) {$q_{96}$};
+\node[state] (q97) at (1.25,-17.64) {$q_{97}$};
+\node[state] (q98) at (2.50,-15.84) {$q_{98}$};
+\node[state] (q99) at (3.75,-15.84) {$q_{99}$};
+\node[state] (q100) at (5.00,-15.84) {$q_{100}$};
+\node[state,accepting] (q101) at (6.25,-15.84) {$q_{101}$};
+\node[state] (q102) at (2.50,-16.92) {$q_{102}$};
+\node[state] (q103) at (3.75,-16.56) {$q_{103}$};
+\node[state] (q104) at (5.00,-16.56) {$q_{104}$};
+\node[state] (q105) at (6.25,-16.56) {$q_{105}$};
+\node[state,accepting] (q106) at (7.50,-16.56) {$q_{106}$};
+\node[state] (q107) at (3.75,-17.28) {$q_{107}$};
+\node[state] (q108) at (5.00,-17.28) {$q_{108}$};
+\node[state] (q109) at (6.25,-17.28) {$q_{109}$};
+\node[state,accepting] (q110) at (7.50,-17.28) {$q_{110}$};
+\node[state] (q111) at (2.50,-18.36) {$q_{111}$};
+\node[state] (q112) at (3.75,-18.00) {$q_{112}$};
+\node[state] (q113) at (5.00,-18.00) {$q_{113}$};
+\node[state] (q114) at (6.25,-18.00) {$q_{114}$};
+\node[state,accepting] (q115) at (7.50,-18.00) {$q_{115}$};
+\node[state] (q116) at (3.75,-18.72) {$q_{116}$};
+\node[state] (q117) at (5.00,-18.72) {$q_{117}$};
+\node[state] (q118) at (6.25,-18.72) {$q_{118}$};
+\node[state,accepting] (q119) at (7.50,-18.72) {$q_{119}$};
+\node[state] (q120) at (2.50,-19.44) {$q_{120}$};
+\node[state] (q121) at (3.75,-19.44) {$q_{121}$};
+\node[state] (q122) at (5.00,-19.44) {$q_{122}$};
+\node[state] (q123) at (6.25,-19.44) {$q_{123}$};
+\node[state,accepting] (q124) at (7.50,-19.44) {$q_{124}$};
+\node[state] (q125) at (1.25,-20.16) {$q_{125}$};
+\node[state] (q126) at (2.50,-20.16) {$q_{126}$};
+\node[state] (q127) at (3.75,-20.16) {$q_{127}$};
+\node[state] (q128) at (5.00,-20.16) {$q_{128}$};
+\node[state] (q129) at (6.25,-20.16) {$q_{129}$};
+\node[state] (q130) at (7.50,-20.16) {$q_{130}$};
+\node[state,accepting] (q131) at (8.75,-20.16) {$q_{131}$};
+\node[state] (q132) at (1.25,-21.24) {$q_{132}$};
+\node[state] (q133) at (2.50,-21.24) {$q_{133}$};
+\node[state] (q134) at (3.75,-20.88) {$q_{134}$};
+\node[state] (q135) at (5.00,-20.88) {$q_{135}$};
+\node[state,accepting] (q136) at (6.25,-20.88) {$q_{136}$};
+\node[state] (q137) at (3.75,-21.60) {$q_{137}$};
+\node[state] (q138) at (5.00,-21.60) {$q_{138}$};
+\node[state] (q139) at (6.25,-21.60) {$q_{139}$};
+\node[state] (q140) at (7.50,-21.60) {$q_{140}$};
+\node[state] (q141) at (8.75,-21.60) {$q_{141}$};
+\node[state,accepting] (q142) at (10.00,-21.60) {$q_{142}$};
+\node[state] (q143) at (1.25,-22.68) {$q_{143}$};
+\node[state] (q144) at (2.50,-22.68) {$q_{144}$};
+\node[state] (q145) at (3.75,-22.32) {$q_{145}$};
+\node[state,accepting] (q146) at (5.00,-22.32) {$q_{146}$};
+\node[state] (q147) at (3.75,-23.04) {$q_{147}$};
+\node[state] (q148) at (5.00,-23.04) {$q_{148}$};
+\node[state] (q149) at (6.25,-23.04) {$q_{149}$};
+\node[state] (q150) at (7.50,-23.04) {$q_{150}$};
+\node[state] (q151) at (8.75,-23.04) {$q_{151}$};
+\node[state,accepting] (q152) at (10.00,-23.04) {$q_{152}$};
+\node[state] (q153) at (1.1,-23.76) {$q_{153}$};
+\node[state] (q154) at (2.50,-23.76) {$q_{154}$};
+\node[state] (q155) at (3.75,-23.76) {$q_{155}$};
+\node[state] (q156) at (5.00,-23.76) {$q_{156}$};
+\node[state,accepting] (q157) at (6.25,-23.76) {$q_{157}$};
+\path (q0) edge node[above,sloped] {\_} (q1);
+\path (q1) edge node[above,sloped] {P} (q2);
+\path (q2) edge node[above,sloped] {a} (q3);
+\path (q3) edge node[above,sloped] {c} (q4);
+\path (q4) edge node[above,sloped] {k} (q5);
+\path (q5) edge node[above,sloped] {e} (q6);
+\path (q6) edge node[above,sloped] {d} (q7);
+\path (q0) edge node[above,sloped] {a} (q8);
+\path (q8) edge node[above,sloped] {u} (q9);
+\path (q9) edge node[above,sloped] {t} (q10);
+\path (q10) edge node[above,sloped] {o} (q11);
+\path (q0) edge node[above,sloped] {b} (q12);
+\path (q12) edge node[above,sloped] {o} (q13);
+\path (q13) edge node[above,sloped] {o} (q14);
+\path (q14) edge node[above,sloped] {l} (q15);
+\path (q12) edge node[below,sloped] {r} (q16);
+\path (q16) edge node[above,sloped] {e} (q17);
+\path (q17) edge node[above,sloped] {a} (q18);
+\path (q18) edge node[above,sloped] {k} (q19);
+\path (q0) edge node[above,sloped] {c} (q20);
+\path (q20) edge node[above,sloped] {a} (q21);
+\path (q21) edge node[above,sloped] {s} (q22);
+\path (q22) edge node[above,sloped] {e} (q23);
+\path (q20) edge node[above,sloped] {h} (q24);
+\path (q24) edge node[above,sloped] {a} (q25);
+\path (q25) edge node[above,sloped] {r} (q26);
+\path (q20) edge node[below,sloped] {o} (q27);
+\path (q27) edge node[above,sloped] {n} (q28);
+\path (q28) edge node[above,sloped] {s} (q29);
+\path (q29) edge node[above,sloped] {t} (q30);
+\path (q28) edge node[below,sloped] {t} (q31);
+\path (q31) edge node[above,sloped] {i} (q32);
+\path (q32) edge node[above,sloped] {n} (q33);
+\path (q33) edge node[above,sloped] {u} (q34);
+\path (q34) edge node[above,sloped] {e} (q35);
+\path (q0) edge node[above,sloped] {d} (q36);
+\path (q36) edge node[above,sloped] {e} (q37);
+\path (q37) edge node[above,sloped] {f} (q38);
+\path (q38) edge node[above,sloped] {a} (q39);
+\path (q39) edge node[above,sloped] {u} (q40);
+\path (q40) edge node[above,sloped] {l} (q41);
+\path (q41) edge node[above,sloped] {t} (q42);
+\path (q36) edge node[below,sloped] {o} (q43);
+\path (q43) edge node[above,sloped] {u} (q44);
+\path (q44) edge node[above,sloped] {b} (q45);
+\path (q45) edge node[above,sloped] {l} (q46);
+\path (q46) edge node[above,sloped] {e} (q47);
+\path (q0) edge node[above,sloped] {e} (q48);
+\path (q48) edge node[above,sloped] {l} (q49);
+\path (q49) edge node[above,sloped] {s} (q50);
+\path (q50) edge node[above,sloped] {e} (q51);
+\path (q48) edge node[below,sloped] {n} (q52);
+\path (q52) edge node[above,sloped] {u} (q53);
+\path (q53) edge node[above,sloped] {m} (q54);
+\path (q48) edge node[below,sloped] {x} (q55);
+\path (q55) edge node[above,sloped] {t} (q56);
+\path (q56) edge node[above,sloped] {e} (q57);
+\path (q57) edge node[above,sloped] {r} (q58);
+\path (q58) edge node[above,sloped] {n} (q59);
+\path (q0) edge node[above,sloped] {f} (q60);
+\path (q60) edge node[above,sloped] {l} (q61);
+\path (q61) edge node[above,sloped] {o} (q62);
+\path (q62) edge node[above,sloped] {a} (q63);
+\path (q63) edge node[above,sloped] {t} (q64);
+\path (q60) edge node[below,sloped] {o} (q65);
+\path (q65) edge node[above,sloped] {r} (q66);
+\path (q0) edge node[above,sloped] {g} (q67);
+\path (q67) edge node[above,sloped] {o} (q68);
+\path (q68) edge node[above,sloped] {t} (q69);
+\path (q69) edge node[above,sloped] {o} (q70);
+\path (q0) edge node[below,sloped] {i} (q71);
+\path (q71) edge node[above,sloped] {f} (q72);
+\path (q71) edge node[below,sloped] {n} (q73);
+\path (q73) edge node[above,sloped] {t} (q74);
+\path (q0) edge node[below,sloped] {l} (q75);
+\path (q75) edge node[above,sloped] {o} (q76);
+\path (q76) edge node[above,sloped] {n} (q77);
+\path (q77) edge node[above,sloped] {g} (q78);
+\path (q0) edge node[below,sloped] {p} (q79);
+\path (q79) edge node[above,sloped] {r} (q80);
+\path (q80) edge node[above,sloped] {i} (q81);
+\path (q81) edge node[above,sloped] {n} (q82);
+\path (q82) edge node[above,sloped] {t} (q83);
+\path (q83) edge node[above,sloped] {f} (q84);
+\path (q0) edge node[below,sloped] {r} (q85);
+\path (q85) edge node[above,sloped] {e} (q86);
+\path (q86) edge node[above,sloped] {g} (q87);
+\path (q87) edge node[above,sloped] {i} (q88);
+\path (q88) edge node[above,sloped] {s} (q89);
+\path (q89) edge node[above,sloped] {t} (q90);
+\path (q90) edge node[above,sloped] {e} (q91);
+\path (q91) edge node[above,sloped] {r} (q92);
+\path (q86) edge node[below,sloped] {t} (q93);
+\path (q93) edge node[above,sloped] {u} (q94);
+\path (q94) edge node[above,sloped] {r} (q95);
+\path (q95) edge node[above,sloped] {n} (q96);
+\path (q0) edge node[below,sloped] {s} (q97);
+\path (q97) edge node[above,sloped] {h} (q98);
+\path (q98) edge node[above,sloped] {o} (q99);
+\path (q99) edge node[above,sloped] {r} (q100);
+\path (q100) edge node[above,sloped] {t} (q101);
+\path (q97) edge node[above,sloped] {i} (q102);
+\path (q102) edge node[above,sloped] {g} (q103);
+\path (q103) edge node[above,sloped] {n} (q104);
+\path (q104) edge node[above,sloped] {e} (q105);
+\path (q105) edge node[above,sloped] {d} (q106);
+\path (q102) edge node[below,sloped] {z} (q107);
+\path (q107) edge node[above,sloped] {e} (q108);
+\path (q108) edge node[above,sloped] {o} (q109);
+\path (q109) edge node[above,sloped] {f} (q110);
+\path (q97) edge node[below,sloped] {t} (q111);
+\path (q111) edge node[above,sloped] {a} (q112);
+\path (q112) edge node[above,sloped] {t} (q113);
+\path (q113) edge node[above,sloped] {i} (q114);
+\path (q114) edge node[above,sloped] {c} (q115);
+\path (q111) edge node[below,sloped] {r} (q116);
+\path (q116) edge node[above,sloped] {u} (q117);
+\path (q117) edge node[above,sloped] {c} (q118);
+\path (q118) edge node[above,sloped] {t} (q119);
+\path (q97) edge node[below,sloped] {w} (q120);
+\path (q120) edge node[above,sloped] {i} (q121);
+\path (q121) edge node[above,sloped] {t} (q122);
+\path (q122) edge node[above,sloped] {c} (q123);
+\path (q123) edge node[above,sloped] {h} (q124);
+\path (q0) edge node[below,sloped] {t} (q125);
+\path (q125) edge node[above,sloped] {y} (q126);
+\path (q126) edge node[above,sloped] {p} (q127);
+\path (q127) edge node[above,sloped] {e} (q128);
+\path (q128) edge node[above,sloped] {d} (q129);
+\path (q129) edge node[above,sloped] {e} (q130);
+\path (q130) edge node[above,sloped] {f} (q131);
+\path (q0) edge node[below,sloped] {u} (q132);
+\path (q132) edge node[above,sloped] {n} (q133);
+\path (q133) edge node[above,sloped] {i} (q134);
+\path (q134) edge node[above,sloped] {o} (q135);
+\path (q135) edge node[above,sloped] {n} (q136);
+\path (q133) edge node[below,sloped] {s} (q137);
+\path (q137) edge node[above,sloped] {i} (q138);
+\path (q138) edge node[above,sloped] {g} (q139);
+\path (q139) edge node[above,sloped] {n} (q140);
+\path (q140) edge node[above,sloped] {e} (q141);
+\path (q141) edge node[above,sloped] {d} (q142);
+\path (q0) edge node[below,sloped] {v} (q143);
+\path (q143) edge node[above,sloped] {o} (q144);
+\path (q144) edge node[above,sloped] {i} (q145);
+\path (q145) edge node[above,sloped] {d} (q146);
+\path (q144) edge node[below,sloped] {l} (q147);
+\path (q147) edge node[above,sloped] {a} (q148);
+\path (q148) edge node[above,sloped] {t} (q149);
+\path (q149) edge node[above,sloped] {i} (q150);
+\path (q150) edge node[above,sloped] {l} (q151);
+\path (q151) edge node[above,sloped] {e} (q152);
+\path (q0) edge node[below,sloped] {w} (q153);
+\path (q153) edge node[above,sloped] {h} (q154);
+\path (q154) edge node[above,sloped] {i} (q155);
+\path (q155) edge node[above,sloped] {l} (q156);
+\path (q156) edge node[above,sloped] {e} (q157);
+\end{tikzpicture}
+\end{document}
