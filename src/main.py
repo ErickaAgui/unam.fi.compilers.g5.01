@@ -2,14 +2,13 @@ from pathlib import Path
 
 from rply import errors
 
-from AnalizadorLexico import Lexer
+from LexicalAnalyzer import Lexer
 
 
 CONSTANT_TYPES = {'STRING', 'REAL', 'INTEGER', 'BOOLEAN'}
 
 
 def clasificar_token(token):
-    """Converts the internal lexer type to the category shown to the user."""
     tipo = token.gettokentype()
 
     if tipo == 'KEYWORD':
@@ -27,12 +26,7 @@ def clasificar_token(token):
 
 
 def obtener_posicion(codigo, indice):
-    """Returns a human-friendly 1-based line and column for ``indice``.
-
-    RPLY provides the absolute source index in the error position.  Computing
-    line and column from that index avoids incorrect columns after ignored
-    whitespace and makes the value match what a user sees in the input.
-    """
+    """Returns the line and column of a position in the source code."""
     indice = max(0, min(indice, len(codigo)))
 
     linea = codigo.count('\n', 0, indice) + 1
@@ -47,7 +41,7 @@ def obtener_posicion(codigo, indice):
     texto_linea = codigo[inicio_linea:siguiente_salto]
     prefijo = codigo[inicio_linea:indice]
 
-    # Expand tabs so the caret remains visually aligned in the terminal.
+    # Keep the caret aligned when the line contains tabs.
     texto_linea_visible = texto_linea.expandtabs(4)
     columna_visual = len(prefijo.expandtabs(4)) + 1
 
@@ -55,7 +49,7 @@ def obtener_posicion(codigo, indice):
 
 
 def mostrar_error_lexico(codigo, error):
-    """Displays the exact invalid position and a caret under the source text."""
+    """Displays a lexical error and its position in the source code."""
     posicion = error.getsourcepos()
     indice = posicion.idx
 
@@ -104,7 +98,6 @@ def analizar(codigo):
 
 
 def normalizar_ruta(ruta):
-    """Allows pasted Windows paths with or without surrounding quotes."""
     ruta = ruta.strip()
     if len(ruta) >= 2 and ruta[0] == ruta[-1] and ruta[0] in {'"', "'"}:
         ruta = ruta[1:-1]
@@ -112,12 +105,10 @@ def normalizar_ruta(ruta):
 
 
 def leer_archivo(ruta):
-    """Reads a UTF-8 text file and returns its contents."""
     return Path(ruta).read_text(encoding='utf-8')
 
 
 def analizar_archivo():
-    """Requests a file path and allows retrying when it cannot be opened."""
     while True:
         ruta = normalizar_ruta(input("\nEnter the file path: "))
 
@@ -156,8 +147,6 @@ def main():
         opcion = input("\nSelect an option: ").strip()
 
         if opcion == '1':
-            # Direct string input is one line. For multi-line C code, use the
-            # file option; whitespace/newlines are handled correctly by lexer.
             codigo = input("\nEnter the string to analyze:\n> ")
             analizar(codigo)
 

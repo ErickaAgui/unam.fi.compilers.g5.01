@@ -5,7 +5,7 @@ from tkinter import filedialog, messagebox, ttk
 
 from rply import errors
 
-from AnalizadorLexico import Lexer
+from LexicalAnalyzer import Lexer
 from main import clasificar_token, obtener_posicion
 
 
@@ -542,7 +542,9 @@ class LexerGUI:
 
         self.input_text.delete("1.0", "end")
         self.input_text.insert("1.0", code)
-        self.analyze_code(code)
+
+        self._set_output("")
+        self.input_text.focus_set()
 
     def clear_all(self):
         self.current_file = None
