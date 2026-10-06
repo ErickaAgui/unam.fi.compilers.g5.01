@@ -1,0 +1,8 @@
+switch (option) {
+    case 1:
+        print("one");
+        break;
+    default:
+        print("other");
+        break;
+}
