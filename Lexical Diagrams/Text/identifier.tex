@@ -1,0 +1,23 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning,arrows.meta,shapes.geometric,calc,fit}
+\tikzset{
+    >=Stealth,
+    every state/.style={minimum size=8mm, inner sep=1pt, font=\small},
+    flow/.style={rectangle, rounded corners, draw, align=center, minimum width=3.1cm, minimum height=0.9cm},
+    decision/.style={diamond, draw, aspect=2.0, align=center, inner sep=1.5pt},
+    terminal/.style={ellipse, draw, align=center, minimum width=2.4cm, minimum height=0.85cm},
+    module/.style={rectangle, draw, rounded corners, align=center, minimum width=3.4cm, minimum height=1.0cm},
+    data/.style={rectangle, draw, align=center, minimum width=3.2cm, minimum height=0.9cm}
+}
+\begin{document}
+\begin{tikzpicture}[->, node distance=35mm, font=\small]
+    \node[state, initial] (q0) {$q_0$};
+    \node[state, accepting, right=of q0] (q1) {$q_1$};
+    \path (q0) edge node[above] {A--Z, a--z, \_} (q1)
+          (q1) edge[loop above] node {A--Z, a--z, 0--9, \_} (q1);
+\end{tikzpicture}
+\end{document}

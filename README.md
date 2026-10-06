@@ -1,4 +1,3 @@
-```markdown
 # Jacaranda Lexical Analyzer
 
 Jacaranda is a lexical analyzer developed for the **Compilers** course at the Faculty of Engineering, UNAM.
@@ -33,15 +32,43 @@ The graphical interface supports `.txt`, `.c`, and `.h` files.
 
 ## Project Structure
 
+```text
 unam.fi.compilers.g5.01/
+│
+├── A. Diagramas léxicos/
+│   │
+│   ├── Diagram PDF/
+│   │   ├── architecture.pdf
+│   │   ├── boolean.pdf
+│   │   ├── identifier.pdf
+│   │   ├── ignored.pdf
+│   │   ├── keywords.pdf
+│   │   ├── leftfactoring.pdf
+│   │   ├── numeric.pdf
+│   │   ├── operators.pdf
+│   │   ├── punctuation.pdf
+│   │   ├── string.pdf
+│   │   └── workflow.pdf
+│   │
+│   └── Text/
+│       ├── architecture.tex
+│       ├── boolean.tex
+│       ├── identifier.tex
+│       ├── ignored.tex
+│       ├── keywords.tex
+│       ├── leftfactoring.tex
+│       ├── numeric.tex
+│       ├── operators.tex
+│       ├── punctuation.tex
+│       ├── string.tex
+│       └── workflow.tex
 │
 ├── assets/
 │   ├── jacaranda.ico
 │   └── jacaranda_icon.png
 │
 ├── docs/
-│   ├── 01-Compilers-Lexer.pdf
-│   └── TESTS.md
+│   └── 01-Compilers-Lexer.pdf
 │
 ├── examples/
 │   ├── 40_tokens.txt
@@ -52,11 +79,15 @@ unam.fi.compilers.g5.01/
 │   ├── ejemplo_printf.txt
 │   └── ejemplo_switch.txt
 │
+├── project_management/
+│   └── kanban_board.png
+│
 ├── src/
-│   ├── AnalizadorLexico.py
-│   ├── interfaz.py
+│   ├── LexicalAnalyzer.py
+│   ├── gui.py
 │   └── main.py
 │
 ├── README.md
-├── requirements.txt
+├── requirements.pdf
 └── .gitignore
+```
