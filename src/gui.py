@@ -542,7 +542,9 @@ class LexerGUI:
 
         self.input_text.delete("1.0", "end")
         self.input_text.insert("1.0", code)
-        self.analyze_code(code)
+
+        self._set_output("")
+        self.input_text.focus_set()
 
     def clear_all(self):
         self.current_file = None
