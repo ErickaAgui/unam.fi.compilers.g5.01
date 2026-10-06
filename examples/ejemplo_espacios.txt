@@ -1,0 +1,2 @@
+int        Value     =       10;
+print("spaces inside this string are preserved");
