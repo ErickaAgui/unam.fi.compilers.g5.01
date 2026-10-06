@@ -40,6 +40,7 @@ unam.fi.compilers.g5.01/
 │   └── jacaranda_icon.png
 │
 ├── docs/
+│   ├── 01-Compilers-Lexer.pdf
 │   └── TESTS.md
 │
 ├── examples/
@@ -56,7 +57,6 @@ unam.fi.compilers.g5.01/
 │   ├── interfaz.py
 │   └── main.py
 │
-├── 01-Compilers-Lexer.pdf
 ├── README.md
 ├── requirements.txt
 └── .gitignore
