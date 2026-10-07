@@ -1,58 +1,154 @@
-\documentclass[tikz,border=6pt]{standalone}
+\documentclass[tikz,border=8pt]{standalone}
+
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
-\usetikzlibrary{positioning,arrows.meta,shapes.geometric}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,calc}
+
 \tikzset{
-  >=Stealth,
-  flow/.style={rectangle,rounded corners,draw,align=center,minimum width=3.0cm,minimum height=0.85cm},
-  decision/.style={diamond,draw,aspect=2.0,align=center,inner sep=1.5pt},
-  terminal/.style={ellipse,draw,align=center,minimum width=2.2cm,minimum height=0.8cm}
+    >=Stealth,
+    flow/.style={
+        rectangle,
+        rounded corners,
+        draw,
+        align=center,
+        minimum width=3.4cm,
+        minimum height=0.85cm
+    },
+    decision/.style={
+        diamond,
+        draw,
+        aspect=2.1,
+        align=center,
+        inner sep=1.5pt
+    },
+    terminal/.style={
+        ellipse,
+        draw,
+        align=center,
+        minimum width=2.3cm,
+        minimum height=0.75cm
+    }
 }
+
 \begin{document}
-\begin{tikzpicture}[node distance=10mm and 18mm,font=\small,->]
-  \node[terminal] (start) {Start};
-  \node[flow,below=of start] (menu) {Display main menu};
-  \node[decision,below=of menu] (choice) {Selected\\option?};
 
-  \node[flow,below left=18mm and 31mm of choice] (string) {Read string\\from terminal};
-  \node[flow,below right=18mm and 31mm of choice] (filepath) {Request file path};
-  \node[terminal,right=35mm of choice] (end) {End};
+\begin{tikzpicture}[
+    node distance=10mm and 18mm,
+    font=\small,
+    ->
+]
 
-  \node[decision,below=of filepath] (open) {File\\opens?};
-  \node[flow,below=of open] (readfile) {Read file contents};
-  \node[flow,right=20mm of open] (fileerr) {Display file-access\\error};
-  \node[decision,below=of fileerr] (retry) {Try again?};
+\node[terminal] (start) {Start};
 
-  \node[flow,below=44mm of choice] (source) {Source text available};
-  \node[flow,below=of source] (scan) {Apply lexical rules\\from left to right};
-  \node[decision,below=of scan] (match) {Current input\\matches a rule?};
-  \node[flow,below left=15mm and 25mm of match] (token) {Create and\\classify token};
-  \node[flow,below right=15mm and 25mm of match] (lexerr) {Report lexical error\\line + column};
-  \node[decision,below=of token] (complete) {Input\\complete?};
-  \node[flow,below=of complete] (output) {Display token sequence\\and total count};
+\node[flow, below=of start] (menu)
+{Display main menu};
 
-  \draw (start) -- (menu);
-  \draw (menu) -- (choice);
-  \draw (choice) -| node[pos=.25,above] {String} (string);
-  \draw (choice) -| node[pos=.25,above] {File} (filepath);
-  \draw (choice) -- node[above] {Exit} (end);
-  \draw (string) |- (source);
-  \draw (filepath) -- (open);
-  \draw (open) -- node[right] {Yes} (readfile);
-  \draw (readfile) |- (source);
-  \draw (open) -- node[above] {No} (fileerr);
-  \draw (fileerr) -- (retry);
-  \draw (retry.west) -| node[pos=.25,above] {Yes} (filepath.east);
-  \draw (retry.east) -| ++(18mm,0) |- node[pos=.25,right] {No} (menu.east);
-  \draw (source) -- (scan);
-  \draw (scan) -- (match);
-  \draw (match) -| node[pos=.25,above] {Yes} (token);
-  \draw (match) -| node[pos=.25,above] {No} (lexerr);
-  \draw (lexerr.east) -| ++(22mm,0) |- (menu.east);
-  \draw (token) -- (complete);
-  \draw (complete) -- node[right] {Yes} (output);
-  \draw (complete.west) -| ++(-18mm,0) |- node[pos=.25,left] {No} (scan.west);
-  \draw (output.west) -| ++(-35mm,0) |- (menu.west);
+\node[decision, below=of menu] (option)
+{Selected\\option?};
+
+\node[flow, below left=15mm and 22mm of option] (string)
+{Read source text\\from terminal};
+
+\node[flow, below right=15mm and 22mm of option] (filepath)
+{Request file path};
+
+\node[terminal, below=15mm of option] (end)
+{End};
+
+\node[decision, below=of filepath] (fileok)
+{File can\\be opened?};
+
+\node[flow, below=of fileok] (readfile)
+{Read file contents};
+
+\node[flow, right=18mm of fileok] (fileerror)
+{Display file\\access error};
+
+\node[flow, below=18mm of $(string)!0.5!(readfile)$] (source)
+{Source text available};
+
+\node[flow, below=of source] (lexer)
+{Send source text to\\the lexical analyzer};
+
+\node[decision, below=of lexer] (error)
+{Lexical\\error?};
+
+\node[flow, below left=15mm and 20mm of error] (tokens)
+{Classify recognized\\tokens};
+
+\node[flow, below right=15mm and 20mm of error] (lexerror)
+{Report invalid symbol\\with line and column};
+
+\node[flow, below=of tokens] (output)
+{Display token list,\\token sequence, and total count};
+
+\node[terminal, below=of output] (return)
+{Return to menu};
+
+
+% Main flow
+\draw (start) -- (menu);
+\draw (menu) -- (option);
+
+% Menu options
+\draw (option)
+    -| node[pos=.25, above] {String}
+    (string);
+
+\draw (option)
+    -| node[pos=.35, above] {File}
+    (filepath);
+
+\draw (option)
+    -- node[midway, right] {Exit}
+    (end);
+
+% String input
+\draw (string.south) |- (source.west);
+
+% File input
+\draw (filepath) -- (fileok);
+
+\draw (fileok)
+    -- node[right] {Yes}
+    (readfile);
+
+\draw (fileok)
+    -- node[above] {No}
+    (fileerror);
+
+\draw (readfile.west) |- (source.east);
+
+% File error returns to menu
+\draw (fileerror.east)
+    -| ++(12mm,0)
+    |- (menu.east);
+
+% Lexical analysis
+\draw (source) -- (lexer);
+\draw (lexer) -- (error);
+
+\draw (error)
+    -| node[pos=.25, above] {No}
+    (tokens);
+
+\draw (error)
+    -| node[pos=.25, above] {Yes}
+    (lexerror);
+
+\draw (tokens) -- (output);
+\draw (output) -- (return);
+
+% Error finishes current analysis
+\draw (lexerror)
+    |- (return.east);
+
+% Return to menu
+\draw (return.west)
+    -| ++(-24mm,0)
+    |- (menu.west);
+
 \end{tikzpicture}
+
 \end{document}

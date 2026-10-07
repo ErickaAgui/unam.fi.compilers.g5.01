@@ -23,7 +23,7 @@
     \path (q0) edge node[above] {\texttt{"}} (q1)
           (q1) edge[loop below] node {character except \texttt{"} and \textbackslash} (q1)
           (q1) edge[bend left=12] node[above,sloped] {\textbackslash} (q2)
-          (q2) edge[bend left=12] node[below,sloped] {escaped character} (q1)
+          (q2) edge[bend left=12] node[below,sloped] {character after \textbackslash} (q1)
           (q1) edge node[above] {\texttt{"}} (q3);
 \end{tikzpicture}
 \end{document}
