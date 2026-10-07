@@ -1,37 +1,93 @@
-\documentclass[tikz,border=6pt]{standalone}
+\documentclass[tikz,border=8pt]{standalone}
+
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath,amssymb}
 \usepackage{tikz}
-\usetikzlibrary{automata,positioning,arrows.meta,shapes.geometric,calc,fit}
+\usetikzlibrary{positioning,arrows.meta}
+\usetikzlibrary{calc}
+
 \tikzset{
     >=Stealth,
-    every state/.style={minimum size=8mm, inner sep=1pt, font=\small},
-    flow/.style={rectangle, rounded corners, draw, align=center, minimum width=3.1cm, minimum height=0.9cm},
-    decision/.style={diamond, draw, aspect=2.0, align=center, inner sep=1.5pt},
-    terminal/.style={ellipse, draw, align=center, minimum width=2.4cm, minimum height=0.85cm},
-    module/.style={rectangle, draw, rounded corners, align=center, minimum width=3.4cm, minimum height=1.0cm},
-    data/.style={rectangle, draw, align=center, minimum width=3.2cm, minimum height=0.9cm}
+    module/.style={
+        rectangle,
+        rounded corners,
+        draw,
+        align=center,
+        minimum width=4.0cm,
+        minimum height=1.25cm
+    },
+    data/.style={
+        rectangle,
+        draw,
+        align=center,
+        minimum width=4.0cm,
+        minimum height=1.0cm
+    }
 }
+
 \begin{document}
-\begin{tikzpicture}[node distance=13mm and 12mm, font=\small, ->]
-    \node[data] (user) {User input\\string or file};
-    \node[module, right=of user] (main) {Main module\\input and output control};
-    \node[module, right=of main] (lexer) {Lexical module\\token rules};
-    \node[module, right=of lexer] (rply) {RPLY scanning\\mechanism};
 
-    \node[data, above=of lexer] (rules) {Regular expressions\\and rule priority};
-    \node[data, below=of rply] (internal) {Internal token types};
-    \node[data, left=of internal] (mapping) {Category mapping\\for report output};
-    \node[data, left=of mapping] (visible) {Visible tokens\\and total count};
+\begin{tikzpicture}[
+    node distance=14mm and 24mm,
+    font=\small,
+    ->
+]
 
-    \draw (user) -- (main);
-    \draw (main) -- (lexer);
-    \draw (lexer) -- (rply);
-    \draw (rules) -- (lexer);
-    \draw (rply) -- (internal);
-    \draw (internal) -- (mapping);
-    \draw (mapping) -- (visible);
-    \draw[dashed] (visible) -- (main);
+% Interfaces
+\node[module] (main)
+{
+\textbf{Terminal interface}\\
+\texttt{main.py}\\
+Input/output and helper functions
+};
+
+\node[module, right=of main] (gui)
+{
+\textbf{Graphical interface}\\
+\texttt{gui.py}\\
+Tkinter user interface
+};
+
+% Shared lexer
+\node[module, below=22mm of $(main)!0.5!(gui)$] (lexer)
+{
+\textbf{Lexical analyzer}\\
+\texttt{LexicalAnalyzer.py}\\
+Token rules and lexer construction
+};
+
+% RPLY
+\node[module, below=of lexer] (rply)
+{
+\textbf{RPLY}\\
+Scanning mechanism
+};
+
+% Result
+\node[data, below=of rply] (result)
+{
+Recognized tokens\\
+or lexical error
+};
+
+
+% Both interfaces use the lexer
+\draw (main) -- (lexer);
+\draw (gui) -- (lexer);
+
+% Lexer uses RPLY
+\draw (lexer) -- (rply);
+
+% Output of scanning
+\draw (rply) -- (result);
+
+% GUI also uses helper functions from main
+\draw[dashed, ->]
+    (gui.west)
+    -- node[midway, above, font=\scriptsize, align=center]
+    {uses helper\\functions}
+    (main.east);
+
 \end{tikzpicture}
+
 \end{document}

@@ -1,0 +1,151 @@
+\documentclass[tikz,border=8pt]{standalone}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric}
+
+\tikzset{
+    >=Stealth,
+    flow/.style={
+        rectangle,
+        rounded corners,
+        draw,
+        align=center,
+        minimum width=3.5cm,
+        minimum height=0.85cm
+    },
+    decision/.style={
+        diamond,
+        draw,
+        aspect=2.1,
+        align=center,
+        inner sep=1.5pt
+    },
+    terminal/.style={
+        ellipse,
+        draw,
+        align=center,
+        minimum width=2.5cm,
+        minimum height=0.75cm
+    }
+}
+
+\begin{document}
+
+\begin{tikzpicture}[
+    node distance=10mm and 20mm,
+    font=\small,
+    ->
+]
+
+\node[terminal] (start)
+{Start GUI};
+
+\node[flow, below=of start] (interface)
+{Display graphical interface};
+
+\node[decision, below=of interface] (method)
+{Input\\method?};
+
+% Input alternatives
+\node[flow, below left=15mm and 25mm of method] (direct)
+{Write or edit code\\in Source code panel};
+
+\node[flow, below right=15mm and 25mm of method] (openfile)
+{Select a supported\\source file};
+
+% File branch
+\node[decision, below=of openfile] (fileok)
+{File can\\be opened?};
+
+\node[flow, below=of fileok] (load)
+{Load file contents\\into Source code panel};
+
+\node[flow, right=20mm of fileok] (fileerror)
+{Display file\\error};
+
+% Merge point
+\node[flow, below=55mm of method] (ready)
+{Source code available\\in the input panel};
+
+\node[flow, below=of ready] (analyze)
+{Press \textit{Analyze}};
+
+\node[flow, below=of analyze] (lexer)
+{Send source text to\\the lexical analyzer};
+
+\node[decision, below=of lexer] (error)
+{Lexical\\error?};
+
+\node[flow, below left=15mm and 22mm of error] (tokens)
+{Classify recognized\\tokens};
+
+\node[flow, below right=15mm and 22mm of error] (lexerror)
+{Display invalid symbol\\with line and column};
+
+\node[flow, below=of tokens] (output)
+{Display token list,\\token sequence, and total count};
+
+\node[terminal, below=of output] (finish)
+{Analysis complete};
+
+
+% Start
+\draw (start) -- (interface);
+\draw (interface) -- (method);
+
+% Input method
+\draw (method)
+    -| node[pos=.25, above] {Direct text}
+    (direct);
+
+\draw (method)
+    -| node[pos=.25, above] {Open file}
+    (openfile);
+
+% Direct input joins ready state from the left
+\draw (direct.south)
+    |- (ready.west);
+
+% File flow
+\draw (openfile) -- (fileok);
+
+\draw (fileok)
+    -- node[midway, right] {Yes}
+    (load);
+
+\draw (fileok.east)
+    -- node[midway, above] {No}
+    (fileerror.west);
+
+% Loaded file joins ready state from the right
+\draw (load.west) |- (ready.east);
+
+% File error returns to interface
+\draw (fileerror.east)
+    -| ++(12mm,0)
+    |- (interface.east);
+
+% Analysis
+\draw (ready) -- (analyze);
+\draw (analyze) -- (lexer);
+\draw (lexer) -- (error);
+
+\draw (error)
+    -| node[pos=.25, above] {No}
+    (tokens);
+
+\draw (error)
+    -| node[pos=.25, above] {Yes}
+    (lexerror);
+
+\draw (tokens) -- (output);
+\draw (output) -- (finish);
+
+\draw (lexerror)
+    |- (finish.east);
+
+\end{tikzpicture}
+
+\end{document}
