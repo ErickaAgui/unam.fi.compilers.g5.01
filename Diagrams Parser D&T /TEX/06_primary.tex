@@ -1,0 +1,38 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc}
+\definecolor{jac}{HTML}{73539E}
+\definecolor{ink}{HTML}{354052}
+\tikzset{
+ >=Stealth,
+ state/.style={draw=jac,fill=jac!7,rounded corners=5pt,align=center,minimum width=26mm,minimum height=11mm,inner sep=5pt,font=\small},
+ action/.style={state,fill=white},
+ decision/.style={draw=jac,fill=jac!7,diamond,aspect=2.4,inner sep=1.8pt,align=center,font=\small},
+ success/.style={state,draw=teal!75!black,fill=teal!7},
+ failure/.style={state,draw=red!70!black,fill=red!5},
+ arrow/.style={->,thick,draw=ink},
+ note/.style={align=left,font=\footnotesize,text=ink}
+}
+\begin{document}
+
+\begin{tikzpicture}[font=\small]
+\node[state] (q0) at (0,0) {\texttt{primary()}};
+\node[decision] (d1) at (0,-2) {Literal token?};
+\node[success] (lit) at (5.3,-2) {Literal AST};
+\node[decision] (d2) at (0,-4.6) {Identifier?};
+\node[success] (id) at (5.3,-4.6) {Identifier AST};
+\node[decision] (d3) at (0,-7.2) {Opening \texttt{(} ?};
+\node[action] (par) at (5.3,-7.2) {Parse expression\\Consume \texttt{)}};
+\node[failure] (err) at (0,-9.8) {Syntax error\\Expected expression};
+\draw[arrow] (q0)--(d1);\draw[arrow] (d1)--node[above]{Yes}(lit);
+\draw[arrow] (d1)--node[left]{No}(d2);
+\draw[arrow] (d2)--node[above]{Yes}(id);
+\draw[arrow] (d2)--node[left]{No}(d3);
+\draw[arrow] (d3)--node[above]{Yes}(par);
+\draw[arrow] (d3)--node[left]{No}(err);
+\end{tikzpicture}
+
+\end{document}
