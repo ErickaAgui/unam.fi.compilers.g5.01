@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from rply import errors
-
 from LexicalAnalyzer import Lexer
 
 
@@ -76,7 +74,7 @@ def analizar(codigo):
 
     try:
         tokens = list(lexer.lex(codigo))
-    except errors.LexingError as error:
+    except Exception as error:
         mostrar_error_lexico(codigo, error)
         return []
 
