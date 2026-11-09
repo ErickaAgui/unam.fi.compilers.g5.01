@@ -1,4 +1,3 @@
-"""Reusable pipeline for GUI/CLI/tests; parsing and SDT run as separate phases."""
 from dataclasses import dataclass
 from LexicalAnalyzer import Lexer
 from Parser import Parser, ParseError

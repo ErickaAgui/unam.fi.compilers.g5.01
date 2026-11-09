@@ -1,9 +1,3 @@
-"""Jacaranda recursive descent parser, manually implemented (no parsing library).
-
-C-like teaching subset: functions, typed parameters, blocks, declarations,
-assignments, calls, print/printf, return, if/else, while, for, do/while,
-comparison/logical expressions and arithmetic. Lexer is unchanged (RPLY).
-"""
 from dataclasses import dataclass, field
 from functools import wraps
 

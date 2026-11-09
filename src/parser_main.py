@@ -1,4 +1,3 @@
-"""CLI usage: python src/parser_main.py [file] [--tree-only]."""
 import sys
 from pathlib import Path
 from analysis_pipeline import analyze

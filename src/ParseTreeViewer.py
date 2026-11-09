@@ -1,8 +1,3 @@
-"""Visualizador del árbol de derivación de Jacaranda.
-
-Muestra el árbol que genera el parser, sin volver a analizar la entrada.
-"""
-
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from pathlib import Path
@@ -19,10 +14,6 @@ EDGE = '#B49ACA'
 
 def tree_layout(root, char_width=9.5, pad=44, row_height=92,
                 measure_text=None, sibling_gap=54):
-    """Calcula el espacio que necesita cada rama para que los textos no se encimen.
-
-    Si se puede, usa el ancho real de las letras que muestra Tkinter.
-    """
     def visible_children(node):
         return [c for c in getattr(node, 'children', [])
                 if str(c.symbol) != 'EOF']
@@ -92,9 +83,6 @@ def export_svg(filename, layout):
 
 
 def export_raster(filename, layout, image_format='PNG', scale=2):
-    """Guarda el árbol completo como PNG o JPG, usando Pillow.
-    Se exporta todo el árbol, no solo la parte visible en la ventana.
-    """
     from PIL import Image, ImageDraw, ImageFont
 
     vertices, connections, width, height = layout
@@ -163,7 +151,6 @@ def export_raster(filename, layout, image_format='PNG', scale=2):
 
 
 class ParseTreeViewer(tk.Toplevel):
-    """Ventana para explorar el árbol y guardarlo en distintos formatos."""
     def __init__(self, master, parse_tree):
         super().__init__(master)
         self.title('Jacaranda | Parse Tree')
@@ -218,7 +205,6 @@ class ParseTreeViewer(tk.Toplevel):
         self.after_idle(self.center_root)
 
     def center_root(self):
-        """Vuelve a colocar la raíz del árbol en el centro de la vista."""
         self.update_idletasks()
 
         vertices, _, width, height = self.layout

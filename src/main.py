@@ -24,7 +24,6 @@ def clasificar_token(token):
 
 
 def obtener_posicion(codigo, indice):
-    """Returns the line and column of a position in the source code."""
     indice = max(0, min(indice, len(codigo)))
 
     linea = codigo.count('\n', 0, indice) + 1
@@ -39,7 +38,6 @@ def obtener_posicion(codigo, indice):
     texto_linea = codigo[inicio_linea:siguiente_salto]
     prefijo = codigo[inicio_linea:indice]
 
-    # Keep the caret aligned when the line contains tabs.
     texto_linea_visible = texto_linea.expandtabs(4)
     columna_visual = len(prefijo.expandtabs(4)) + 1
 
@@ -47,7 +45,6 @@ def obtener_posicion(codigo, indice):
 
 
 def mostrar_error_lexico(codigo, error):
-    """Displays a lexical error and its position in the source code."""
     posicion = error.getsourcepos()
     indice = posicion.idx
 
@@ -69,7 +66,6 @@ def mostrar_error_lexico(codigo, error):
 
 
 def analizar(codigo):
-    """Analyzes source text and displays the recognized token sequence."""
     lexer = Lexer().get_lexer()
 
     try:
