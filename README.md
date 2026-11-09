@@ -1,63 +1,95 @@
-# Jacaranda | Lexer, Parser & SDT
+# Jacaranda Lexical Analyzer
 
-Proyecto académico de la asignatura **Compiladores**, Facultad de Ingeniería, UNAM. Equipo 01, grupo 5.
+Jacaranda is a lexical analyzer developed for the **Compilers** course at the Faculty of Engineering, UNAM.
 
-Jacaranda reconoce tokens de un subconjunto de C, comprueba la estructura de las instrucciones y realiza algunas validaciones semánticas. El analizador **no ejecuta los programas ni implementa todo C**.
+**Team 01 — Group 5**  
+**Semester 2027-1**
 
-## Qué hace Jacaranda
+This project analyzes source text and separates it into lexical tokens. It can recognize keywords, identifiers, operators, constants, and punctuation symbols, while also reporting the total number of tokens found.
 
-- **Lexer:** identifica palabras reservadas, identificadores, constantes, operadores y signos de puntuación con RPLY.
-- **Parser:** utiliza descenso recursivo para reconocer declaraciones, funciones, parámetros, bloques, condicionales, ciclos y expresiones; genera un *Parse Tree* y un AST.
-- **SDT:** revisa tipos de datos, ámbitos, variables declaradas, funciones, argumentos y valores de retorno.
-- **Interfaz:** permite analizar código, abrir archivos y visualizar el *Parse Tree*. El árbol se puede exportar en SVG, PNG o JPG.
+The analyzer is C-oriented and was developed in Python using **RPLY**. It is an educational lexer created for the requirements of this course, so it does not try to implement the complete C lexical specification.
 
-## Instalación y ejecución
+----
 
-Se necesita Python 3.10 o superior, RPLY, Pillow y Tkinter para abrir la interfaz. Desde la raíz del repositorio:
+## Main Features
 
-```bash
-python -m pip install -r requirements.txt
-python src/gui.py
+Jacaranda can:
+
+- Analyze source code written directly by the user.
+- Analyze source code from a file.
+- Recognize keywords, identifiers, operators, constants, and punctuation.
+- Recognize `print` as a keyword, as required by the activity.
+- Handle integer, real, Boolean, and string constants.
+- Ignore whitespace and supported single-line comments.
+- Detect unsupported symbols and report their line and column.
+- Display the complete token sequence.
+- Report the total number of recognized tokens.
+- Use the same lexical analyzer from both the terminal and graphical interfaces.
+
+The graphical interface supports `.txt`, `.c`, and `.h` files.
+
+----
+
+## Project Structure
+
+```text
+unam.fi.compilers.g5.01/
+│
+├── A. Diagramas léxicos/
+│   │
+│   ├── Diagram PDF/
+│   │   ├── architecture.pdf
+│   │   ├── boolean.pdf
+│   │   ├── identifier.pdf
+│   │   ├── ignored.pdf
+│   │   ├── keywords.pdf
+│   │   ├── leftfactoring.pdf
+│   │   ├── numeric.pdf
+│   │   ├── operators.pdf
+│   │   ├── punctuation.pdf
+│   │   ├── string.pdf
+│   │   └── workflow.pdf
+│   │
+│   └── Text/
+│       ├── architecture.tex
+│       ├── boolean.tex
+│       ├── identifier.tex
+│       ├── ignored.tex
+│       ├── keywords.tex
+│       ├── leftfactoring.tex
+│       ├── numeric.tex
+│       ├── operators.tex
+│       ├── punctuation.tex
+│       ├── string.tex
+│       └── workflow.tex
+│
+├── assets/
+│   ├── jacaranda.ico
+│   └── jacaranda_icon.png
+│
+├── docs/
+│   └── 01-Compilers-Lexer.pdf
+│
+├── examples/
+│   ├── 40_tokens.txt
+│   ├── ejemplo_error.txt
+│   ├── ejemplo_espacios.txt
+│   ├── ejemplo_int.txt
+│   ├── ejemplo_print.txt
+│   ├── ejemplo_printf.txt
+│   └── ejemplo_switch.txt
+│
+├── project_management/
+│   └── kanban_board.png
+│
+├── src/
+│   ├── LexicalAnalyzer.py
+│   ├── gui.py
+│   └── main.py
+│
+├── README.md
+├── requirements.pdf
+└── .gitignore
 ```
 
-En Windows también se puede utilizar `py` en lugar de `python`.
-
-Para analizar un ejemplo desde la terminal:
-
-```bash
-python src/parser_main.py examples/parser/21_function_main.c
-```
-
-Para ejecutar las pruebas automatizadas:
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-En la interfaz, **Analyze** corresponde al lexer; **Parser & SDT** realiza el análisis sintáctico y semántico; **View Parse Tree** permite consultar el árbol de derivación. La entrada debe ser sintácticamente válida para construirlo.
-
-## Organización del proyecto
-
-| Carpeta o archivo | Contenido |
-|---|---|
-| `src/LexicalAnalyzer.py` | Lexer original con RPLY |
-| `src/Parser.py` | Parser descendente recursivo y árboles |
-| `src/SemanticAnalyzer.py` | Comprobaciones semánticas y tablas de símbolos |
-| `src/analysis_pipeline.py` | Conexión entre lexer, parser y SDT |
-| `src/gui.py` y `src/ParseTreeViewer.py` | Interfaz gráfica y visualización del árbol |
-| `src/main.py` y `src/parser_main.py` | Ejecución desde terminal |
-| `examples/` | Entradas de prueba del lexer y del parser |
-| `tests/` | Pruebas automatizadas |
-| `Lexical Diagrams/` | Diagramas correspondientes al análisis léxico |
-| `docs/` | Material académico y reportes disponibles |
-| `requirements.txt` | Dependencias de Python |
-
-## Documentación
-
-Los detalles de la gramática, reglas SDT, ejemplos y límites del parser se encuentran en **[PARSER_README.md](PARSER_README.md)**.
-
-Los reportes académicos y los materiales de la primera entrega se organizan en `docs/`. La documentación técnica actualizada del Parser & SDT se encuentra en el archivo enlazado arriba.
-
-## Repositorio
-
-https://github.com/ErickaAgui/unam.fi.compilers.g5.01
+Si quieres, puedo ayudarte a decirte exactamente qué comando usar según si el commit ya está subido a GitHub o solo está en tu computadora.
