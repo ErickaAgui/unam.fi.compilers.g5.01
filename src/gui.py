@@ -3,10 +3,10 @@ import tkinter.font as tkfont
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
-from rply import errors
-
 from LexicalAnalyzer import Lexer
 from main import clasificar_token, obtener_posicion
+from analysis_pipeline import analyze as parse_and_check
+from ParseTreeViewer import ParseTreeViewer
 
 
 class RoundedFrame(tk.Canvas):
@@ -112,7 +112,7 @@ class LexerGUI:
 
     def __init__(self, root):
         self.root = root
-        self.root.title("Jacaranda - Lexical Analyzer")
+        self.root.title("Jacaranda - Lexer, Parser & SDT")
         self._set_window_icon()
         self.root.geometry("1200x720")
         self.root.minsize(900, 600)
@@ -233,7 +233,7 @@ class LexerGUI:
 
         tk.Label(
             header,
-            text="Lexical Analyzer",
+            text="Lexer / Parser / SDT",
             bg=self.JACARANDA_DARK,
             fg=self.JACARANDA_LIGHT,
             font=("Segoe UI", 10),
@@ -259,6 +259,20 @@ class LexerGUI:
             text="Analyze",
             command=self.analyze_input,
             style="Jacaranda.TButton",
+        ).pack(side="left", padx=(0, 8))
+
+        ttk.Button(
+            button_frame,
+            text="Parser & SDT",
+            command=self.analyze_parser_input,
+            style="Jacaranda.TButton",
+        ).pack(side="left", padx=(0, 8))
+
+        ttk.Button(
+            button_frame,
+            text="View Parse Tree",
+            command=self.view_parse_tree,
+            style="Light.TButton",
         ).pack(side="left", padx=(0, 8))
 
         ttk.Button(
@@ -464,7 +478,7 @@ class LexerGUI:
 
         try:
             tokens = list(lexer.lex(code))
-        except errors.LexingError as error:
+        except Exception as error:
             self._set_output(self._format_lexical_error(code, error))
             return
 
@@ -493,6 +507,28 @@ class LexerGUI:
     def analyze_input(self):
         code = self.input_text.get("1.0", "end-1c")
         self.analyze_code(code)
+
+    def analyze_parser_input(self):
+        code = self.input_text.get("1.0", "end-1c")
+        if not code.strip():
+            self._set_output("Enter code to analyze.")
+            return
+        self._set_output(parse_and_check(code).formatted())
+
+    def view_parse_tree(self):
+        """Render the actual concrete tree from the current code."""
+        code = self.input_text.get("1.0", "end-1c")
+        if not code.strip():
+            messagebox.showinfo("Jacaranda", "Enter source code before viewing its parse tree.")
+            return
+        result = parse_and_check(code)
+        self._set_output(result.formatted())
+        if result.parse_tree is None:
+            messagebox.showwarning("Parse Tree",
+                "The input must pass lexical and syntax analysis to build a tree.\n"
+                + result.formatted())
+            return
+        ParseTreeViewer(self.root, result.parse_tree)
 
     def open_file(self):
         path = filedialog.askopenfilename(
