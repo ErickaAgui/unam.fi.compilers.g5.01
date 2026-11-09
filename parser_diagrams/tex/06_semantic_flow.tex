@@ -1,0 +1,14 @@
+\begin{tikzpicture}[>=Stealth,font=\small,node distance=9mm and 20mm]
+\node[jbox,minimum width=46mm] (ast) {AST from successful parsing};
+\node[jbox,below=of ast,minimum width=46mm] (register) {First pass\\Record function names};
+\node[jbox,below=of register,minimum width=46mm] (visit) {Second pass\\Visit statements and scopes};
+\node[jdecision,below=12mm of visit] (valid) {Semantic rule\\satisfied?};
+\node[jgood,below left=16mm and 22mm of valid,minimum width=47mm] (good) {Continue checking\\then SDT Verified!};
+\node[jbad,below right=16mm and 22mm of valid,minimum width=47mm] (bad) {SDT error\\with source line};
+\draw[jarrow] (ast)--(register);
+\draw[jarrow] (register)--(visit);
+\draw[jarrow] (visit)--(valid);
+\draw[jarrow] (valid)--node[above left,font=\scriptsize]{Yes} (good);
+\draw[jarrow] (valid)--node[above right,font=\scriptsize]{No} (bad);
+\node[jnote,text width=105mm] at (0,-10.3) {Checks include declarations, variable lookup, function existence, return types, numeric operations and conditions.};
+\end{tikzpicture}

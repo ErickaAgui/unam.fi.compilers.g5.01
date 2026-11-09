@@ -38,7 +38,7 @@ The parser follows a **top-down recursive-descent approach**: Python functions r
 - Use a **symbol table** to keep track of declared variables and their types.
 - Check whether variables have been declared and avoid repeated declarations in the same block.
 - Check types used in declarations, assignments, and expressions.
-- Check function parameters, arguments, and return values.
+- Recognize functions and parameters; check that called functions exist and that return values have compatible types.
 - Report semantic errors separately from syntax errors.
 
 ### User Interface

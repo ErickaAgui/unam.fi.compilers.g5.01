@@ -1,0 +1,12 @@
+\begin{tikzpicture}[>=Stealth,font=\small]
+\node[jbox,minimum width=31mm] (if) at (-6,0) {\texttt{if / else}};
+\node[jbox,minimum width=31mm] (wh) at (-2,0) {\texttt{while}};
+\node[jbox,minimum width=31mm] (for) at (2,0) {\texttt{for}};
+\node[jbox,minimum width=31mm] (doo) at (6,0) {\texttt{do-while}};
+\node[jnote,minimum width=32mm,minimum height=17mm] (ifd) at (-6,-2.3) {Condition\\then / optional else};
+\node[jnote,minimum width=32mm,minimum height=17mm] (whd) at (-2,-2.3) {Condition\\body};
+\node[jnote,minimum width=32mm,minimum height=17mm] (ford) at (2,-2.3) {Initializer\\condition / update\\body};
+\node[jnote,minimum width=32mm,minimum height=17mm] (dod) at (6,-2.3) {Body\\condition};
+\foreach \a/\b in {if/ifd,wh/whd,for/ford,doo/dod} {\draw[jarrow] (\a)--(\b);}
+\node[jnote,text width=123mm] at (0,-4.25) {These are grammar components and AST structures. The analyzer checks their form and types; it does not execute branches or loops.};
+\end{tikzpicture}

@@ -22,16 +22,16 @@ class ExtendedParserTests(unittest.TestCase):
             'void hello(){print("hola");return;} int main(){hello();return 0;}',
             'int plus(int a); int main(){return plus(2);} int plus(int a){return a+1;}',
             'int main(){printf("valor: %d",4);return 0;}',
+            'int f(int x){return x;} int main(){return f(true);}',
+            'int f(int x){return x;} int main(){return f();}',
         ]
         for code in cases:
             with self.subTest(code=code):self.assertEqual(analyze(code).phase,'success',analyze(code).formatted()[:200])
     def test_semantic_errors(self):
         cases=[
             'int f(){return true;}',
-            'int f(int x){return x;} int main(){return f(true);}',
             'int main(){int x=1;int x=2;return 0;}',
             'int f(){return z;}',
-            'int f(int x){return x;} int main(){return f();}',
             'int f(){return 1;} int f(){return 2;}',
             'void f(){return 3;}',
             'int main(){if("hello")return 1;return 0;}',
@@ -56,7 +56,7 @@ class ExtendedParserTests(unittest.TestCase):
             '26_do_while': 'success',
             '27_nested_scope': 'success',
             '28_semantic_return_type': 'semantic',
-            '29_semantic_call_arity': 'semantic',
+            '29_valid_function_call': 'success',
             '30_semantic_scope': 'semantic',
             '31_semantic_duplicate_function': 'semantic',
             '32_syntax_missing_brace': 'syntax',
