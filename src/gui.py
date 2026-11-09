@@ -516,7 +516,6 @@ class LexerGUI:
         self._set_output(parse_and_check(code).formatted())
 
     def view_parse_tree(self):
-        """Render the actual concrete tree from the current code."""
         code = self.input_text.get("1.0", "end-1c")
         if not code.strip():
             messagebox.showinfo("Jacaranda", "Enter source code before viewing its parse tree.")

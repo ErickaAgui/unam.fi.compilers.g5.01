@@ -22,7 +22,6 @@ class SemanticAnalyzer:
         if not self.compatible(expected,actual):
             raise SemanticError(f'Type mismatch: cannot assign {actual} to {expected}',line)
     def verify(self,tree):
-        # Primero registramos los nombres y tipos de retorno de las funciones.
         for node in tree.children:
             if node.kind not in ('Function', 'Prototype'):
                 continue
@@ -116,8 +115,6 @@ class SemanticAnalyzer:
         if n.kind == 'Call':
             if n.value not in self.functions:
                 self.fail(f'Function {n.value!r} is not declared', n)
-            # Cada argumento debe ser una expresion valida, pero no se compara
-            # su cantidad ni su tipo con los parametros de la funcion.
             for argument in n.children:
                 self.expression_type(argument)
             return self.functions[n.value][0]
@@ -143,6 +140,6 @@ class SemanticAnalyzer:
             if op=='%':
                 if left!='int' or right!='int':self.fail('% requires integer operands',n)
                 return 'int'
-            if op=='/':return 'float' # retained teaching rule, not full C semantics
+            if op=='/':return 'float'
             return 'double' if 'double' in (left,right) else ('float' if 'float' in (left,right) else 'int')
         self.fail('Unsupported expression: '+n.kind,n)
