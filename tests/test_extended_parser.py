@@ -46,7 +46,7 @@ class ExtendedParserTests(unittest.TestCase):
             with self.subTest(code=code):self.assertEqual(analyze(code).phase,'syntax')
     def test_extended_example_files(self):
         from pathlib import Path
-        root = Path(__file__).resolve().parents[1] / 'examples' / 'parser'
+        root = Path(__file__).resolve().parents[1] / 'examples' / 'parser_sdt'
         expectations = {
             '21_function_main': 'success',
             '22_functions_parameters': 'success',
