@@ -9,7 +9,7 @@ This project analyzes source text and separates it into lexical tokens. It can r
 
 The analyzer is C-oriented and was developed in Python using **RPLY**. It is an educational lexer created for the requirements of this course, so it does not try to implement the complete C lexical specification.
 
----
+----
 
 ## Main Features
 
@@ -28,7 +28,7 @@ Jacaranda can:
 
 The graphical interface supports `.txt`, `.c`, and `.h` files.
 
----
+----
 
 ## Project Structure
 
@@ -91,3 +91,5 @@ unam.fi.compilers.g5.01/
 ├── requirements.pdf
 └── .gitignore
 ```
+
+Si quieres, puedo ayudarte a decirte exactamente qué comando usar según si el commit ya está subido a GitHub o solo está en tu computadora.
