@@ -22,7 +22,7 @@ class ParserTests(unittest.TestCase):
         }
         for name, expected in expectations.items():
             with self.subTest(name=name):
-                code = (ROOT / 'examples' / 'parser' / (name+'.c')).read_text(encoding='utf-8')
+                code = (ROOT / 'examples' / 'parser_sdt' / (name+'.c')).read_text(encoding='utf-8')
                 self.assertEqual(analyze(code).phase, expected)
 
     def test_parse_tree_contains_terminals(self):
