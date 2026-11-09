@@ -1,6 +1,3 @@
-"""Syntax-directed semantic checks for Jacaranda's educational C subset.
-No execution, no code generation; expression types are synthesized from AST.
-"""
 class SemanticError(Exception):
     def __init__(self,message,line):super().__init__(message);self.line=line
 
@@ -25,22 +22,24 @@ class SemanticAnalyzer:
         if not self.compatible(expected,actual):
             raise SemanticError(f'Type mismatch: cannot assign {actual} to {expected}',line)
     def verify(self,tree):
-        # Two passes permit calling functions declared later in the source.
-        for n in tree.children:
-            if n.kind in ('Function','Prototype'):
-                typ,name=n.value.split(' ',1)
-                params=n.children[:-1] if n.kind=='Function' else n.children
-                signature=(typ,[p.value.split(' ',1)[0] for p in params])
-                if name in self.functions:
-                    old=self.functions[name]
-                    if old[:2]!=signature:self.fail(f'Conflicting function declaration {name!r}',n)
-                    if n.kind=='Function' and old[2]:self.fail(f'Function {name!r} is already defined',n)
-                    self.functions[name]=(typ,signature[1],old[2] or n.kind=='Function')
-                else:
-                    self.functions[name]=(typ,signature[1],n.kind=='Function')
-        for n in tree.children:
-            if n.kind=='Function':self.function(n)
-            elif n.kind!='Prototype':self.statement(n)
+        # Primero registramos los nombres y tipos de retorno de las funciones.
+        for node in tree.children:
+            if node.kind not in ('Function', 'Prototype'):
+                continue
+            return_type, name = node.value.split(' ', 1)
+            previous = self.functions.get(name)
+            if node.kind == 'Function':
+                if previous is not None and previous[1]:
+                    self.fail(f'Function {name!r} is already defined', node)
+                self.functions[name] = (return_type, True)
+            elif previous is None:
+                self.functions[name] = (return_type, False)
+
+        for node in tree.children:
+            if node.kind == 'Function':
+                self.function(node)
+            elif node.kind != 'Prototype':
+                self.statement(node)
         return dict(self.symbols)
     def function(self,node):
         typ,name=node.value.split(' ',1)
@@ -114,13 +113,14 @@ class SemanticAnalyzer:
         if n.kind=='Literal':
             return {'INTEGER':'int','REAL':'float','BOOLEAN':'bool','STRING':'string'}[n.value.split(':',1)[0]]
         if n.kind=='Identifier':return self.lookup(n.value,n)
-        if n.kind=='Call':
-            if n.value not in self.functions:self.fail(f'Function {n.value!r} is not declared',n)
-            ret,params,_=self.functions[n.value]
-            if len(n.children)!=len(params):self.fail(f'Function {n.value!r} expects {len(params)} arguments, got {len(n.children)}',n)
-            for param,arg in zip(params,n.children):
-                self.require_assignment(param,self.expression_type(arg),arg.line)
-            return ret
+        if n.kind == 'Call':
+            if n.value not in self.functions:
+                self.fail(f'Function {n.value!r} is not declared', n)
+            # Cada argumento debe ser una expresion valida, pero no se compara
+            # su cantidad ni su tipo con los parametros de la funcion.
+            for argument in n.children:
+                self.expression_type(argument)
+            return self.functions[n.value][0]
         if n.kind=='Unary':
             typ=self.expression_type(n.children[0])
             if n.value=='!':

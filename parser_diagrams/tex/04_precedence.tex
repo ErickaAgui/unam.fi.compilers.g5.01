@@ -1,0 +1,13 @@
+\begin{tikzpicture}[>=Stealth,font=\small,node distance=3mm]
+\node[jbox,minimum width=38mm] (or) at (0,0) {logical OR: \texttt{||}};
+\node[jbox,minimum width=38mm] (and) at (0,-1.3) {logical AND: \texttt{\&\&}};
+\node[jbox,minimum width=38mm] (eq) at (0,-2.6) {equality: \texttt{== !=}};
+\node[jbox,minimum width=38mm] (cmp) at (0,-3.9) {comparison: \texttt{< > <= >=}};
+\node[jbox,minimum width=38mm] (add) at (0,-5.2) {addition: \texttt{+ -}};
+\node[jbox,minimum width=38mm] (term) at (0,-6.5) {term: \texttt{* / \%}};
+\node[jbox,minimum width=38mm] (unary) at (0,-7.8) {unary: \texttt{+ - !}};
+\node[jbox,minimum width=38mm] (pri) at (0,-9.1) {primary: values, names, calls, \texttt{(...)}};
+\foreach \a/\b in {or/and,and/eq,eq/cmp,cmp/add,add/term,term/unary,unary/pri} {\draw[jarrow] (\a)--(\b);}
+\node[jnote,align=left,text width=47mm] at (5,-4.3) {Each level calls the next tighter level.\\[3pt] Operators within a level form binary AST nodes.\\[3pt] Parentheses can group an entire expression.};
+\node[jnote,align=left,text width=47mm] at (5,-7.3) {\textbf{Binding strength} increases from top to bottom.};
+\end{tikzpicture}

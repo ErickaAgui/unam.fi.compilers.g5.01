@@ -1,0 +1,22 @@
+\begin{tikzpicture}[font=\small,>=Stealth]
+\node[font=\bfseries,text=jacDark] at (-4.5,1) {Parse tree (abridged)};
+\node[font=\bfseries,text=jacDark] at (4.2,1) {AST};
+\node[jtree] (prog) at (-4.5,0) {program};
+\node[jtree] (glob) at (-4.5,-1.2) {global};
+\node[jtree] (type) at (-7.0,-2.6) {\texttt{int}};
+\node[jtree] (name) at (-5.0,-2.6) {\texttt{x}};
+\node[jtree] (tail) at (-2.9,-2.6) {declaration\_tail};
+\node[jtree] (eq) at (-4.1,-4) {\texttt{=}};
+\node[jtree] (expr) at (-2.1,-4) {expression};
+\node[jtree] (lit) at (-2.1,-5.4) {\texttt{10}};
+\node[jtree] (semi) at (-.8,-4) {\texttt{;}};
+\draw[jedge] (prog)--(glob);
+\foreach \n in {type,name,tail} {\draw[jedge] (glob)--(\n);}
+\foreach \n in {eq,expr,semi} {\draw[jedge] (tail)--(\n);}
+\draw[jedge] (expr)--(lit);
+\node[jtree] (ap) at (4.2,0) {Program};
+\node[jtree] (ad) at (4.2,-1.5) {Declaration\\\texttt{int x}};
+\node[jtree] (al) at (4.2,-3.1) {Literal\\\texttt{INTEGER:10}};
+\draw[jedge] (ap)--(ad);
+\draw[jedge] (ad)--(al);
+\end{tikzpicture}

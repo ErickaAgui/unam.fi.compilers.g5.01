@@ -1,0 +1,14 @@
+\begin{tikzpicture}[>=Stealth,node distance=9mm,font=\small]
+\node[jbox,minimum width=42mm] (sig) {Function header\\return type, name, parameters};
+\node[jbox,below=of sig,minimum width=42mm] (body) {Block body\\\texttt{\{ statements \}}};
+\node[jbox,below=of body,minimum width=42mm] (ast) {Function AST node};
+\node[jbox,right=31mm of sig,minimum width=50mm] (register) {SDT: record function\\name and return type};
+\node[jbox,below=of register,minimum width=50mm] (scope) {Open function scope\\record parameters and local variables};
+\node[jbox,below=of scope,minimum width=50mm] (returns) {Check function existence and \texttt{return}\\then close the local scope};
+\draw[jarrow] (sig)--(body);
+\draw[jarrow] (body)--(ast);
+\draw[jarrow] (sig)--(register);
+\draw[jarrow] (register)--(scope);
+\draw[jarrow] (scope)--(returns);
+\draw[jarrow,dashed] (ast.east) -- (returns.west);
+\end{tikzpicture}

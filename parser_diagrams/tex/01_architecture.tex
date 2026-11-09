@@ -20,7 +20,7 @@
 
 \begin{tikzpicture}[node distance=9mm,font=\small]
 \node[state] (input) {Input: source code};
-\node[action,below=of input] (lexer) {Original RPLY lexer\\\texttt{LexicalAnalyzer.py}};
+\node[action,below=of input] (lexer) {RPLY lexer\\\texttt{LexicalAnalyzer.py}};
 \node[decision,below=12mm of lexer] (lexok) {Tokens recognized?};
 \node[action,below=14mm of lexok] (parser) {Top-down recursive parser\\\texttt{Parser.py}};
 \node[decision,below=12mm of parser] (parseok) {Grammar satisfied?};

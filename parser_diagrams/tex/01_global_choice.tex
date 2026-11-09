@@ -1,0 +1,15 @@
+\begin{tikzpicture}[>=Stealth, node distance=10mm and 16mm, font=\small]
+\node[jbox,minimum width=45mm] (start) {Read a type and identifier\\\textit{e.g., int + name}};
+\node[jdecision,below=13mm of start] (look) {Next token\\is \texttt{(} ?};
+\node[jbox,below left=17mm and 25mm of look,minimum width=49mm] (decl) {Variable declaration\\optional initializer, then \texttt{;}};
+\node[jbox,below right=17mm and 25mm of look,minimum width=49mm] (func) {Function header\\parameter list and \texttt{)}};
+\node[jbox,below=10mm of func,minimum width=49mm] (tail) {Prototype \texttt{;}\\or function body \texttt{\{ ... \}}};
+\node[jnote,below=9mm of decl,minimum width=49mm] (decAst) {Declaration AST};
+\node[jnote,below=10mm of tail,minimum width=49mm] (funAst) {Prototype / Function AST};
+\draw[jarrow] (start)--(look);
+\draw[jarrow] (look)--node[above left,font=\scriptsize]{No} (decl);
+\draw[jarrow] (look)--node[above right,font=\scriptsize]{Yes} (func);
+\draw[jarrow] (func)--(tail);
+\draw[jarrow] (decl)--(decAst);
+\draw[jarrow] (tail)--(funAst);
+\end{tikzpicture}

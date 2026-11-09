@@ -1,0 +1,9 @@
+\begin{tikzpicture}[>=Stealth, font=\small]
+\node[draw=jacPurple,fill=jacPurple!5,rounded corners=4pt,minimum width=122mm,minimum height=61mm] (global) at (0,0) {};
+\node[anchor=north west,font=\bfseries\small,text=jacDark] at ([xshift=4mm,yshift=-3mm]global.north west) {Global scope: global variables / function names};
+\node[draw=jacPurple,fill=white,rounded corners=4pt,minimum width=100mm,minimum height=41mm] (func) at (0,-6mm) {};
+\node[anchor=north west,font=\small\bfseries,text=jacDark] at ([xshift=3mm,yshift=-3mm]func.north west) {Function scope: parameters and local names};
+\node[draw=jacPurple,fill=jacPurple!7,rounded corners=4pt,minimum width=75mm,minimum height=20mm] (inner) at (0,-12mm) {};
+\node[align=center,font=\small,text=jacDark] at (inner.center) {Nested block\\local names visible only inside};
+\node[jnote,text width=120mm] at (0,-4.3) {Name lookup starts in the innermost current scope and searches outward. Repeating a name within the same scope is rejected; a new nested scope may use that name.};
+\end{tikzpicture}

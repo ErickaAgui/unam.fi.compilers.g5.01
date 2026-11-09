@@ -1,0 +1,12 @@
+\begin{tikzpicture}[>=Stealth, font=\small]
+\node[jbox,minimum width=52mm] (root) at (0,0) {\texttt{statement()}\\Inspect the next token};
+\node[jbox,minimum width=26mm] (decl) at (-9,-2.5) {type keyword\\Declaration};
+\node[jbox,minimum width=26mm] (block) at (-6,-2.5) {\texttt{\{}\\Block};
+\node[jbox,minimum width=26mm] (cond) at (-3,-2.5) {\texttt{if}\\Conditional};
+\node[jbox,minimum width=26mm] (loop) at (0,-2.5) {\texttt{while/for/do}\\Loop};
+\node[jbox,minimum width=26mm] (ret) at (3,-2.5) {\texttt{return}\\Return};
+\node[jbox,minimum width=26mm] (print) at (6,-2.5) {\texttt{print/printf}\\Output};
+\node[jbox,minimum width=29mm] (id) at (9,-2.5) {identifier\\Assignment / call};
+\foreach \n in {decl,block,cond,loop,ret,print,id} {\draw[jarrow] (root.south) -- (\n.north);}
+\node[jnote,minimum width=165mm] (note) at (0,-4.2) {Every branch consumes its own grammar structure; unsupported tokens produce a parsing error.};
+\end{tikzpicture}
