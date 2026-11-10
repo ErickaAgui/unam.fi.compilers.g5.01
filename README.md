@@ -102,14 +102,16 @@ unam.fi.compilers.g5.01/
 ├── assets/                  # Application icons
 ├── docs/
 │   ├── lexer/               # Lexical analyzer report and presentation
-│   └── parser_sdt/          # Parser & SDT report
+│   └── parser_sdt/          # Parser & SDT report and presentation
 ├── examples/
 │   ├── lexer/               # Lexer examples
 │   └── parser_sdt/          # Parser & SDT examples
 ├── lexical_diagrams/
 │   ├── diagrams_pdf/
-│   └── text/
+│   └── tex/
 ├── parser_diagrams/         # Parser and semantic-analysis diagrams
+│   ├── diagrams_pdf/
+│   └── tex/
 ├── project_management/
 ├── src/
 │   ├── LexicalAnalyzer.py
