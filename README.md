@@ -113,8 +113,8 @@ unam.fi.compilers.g5.01/
 │   ├── diagrams_pdf/
 │   └── tex/
 ├── project_management/
-│   ├── Kanban Phase 1 Lexer.png/
-│   └── Kanban Phase 2 Parser & SDT.png/
+│   ├── Kanban Phase 1 Lexer.png
+│   └── Kanban Phase 2 Parser & SDT.png
 ├── src/
 │   ├── LexicalAnalyzer.py
 │   ├── Parser.py
