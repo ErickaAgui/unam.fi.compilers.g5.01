@@ -3,6 +3,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
 from engine import run,parse
+from lark_pipeline import check_source, as_display_tree
+from ParseTreeViewer import tree_layout
 
 class JacarandaFinalTests(unittest.TestCase):
     def test_examples(self):
@@ -25,7 +27,7 @@ class JacarandaFinalTests(unittest.TestCase):
         }
         for name,(phase,text) in expectations.items():
             with self.subTest(name=name):
-                source=(ROOT/'examples'/name).read_text(encoding='utf-8')
+                source=(ROOT/'examples'/'final_project'/name).read_text(encoding='utf-8')
                 result=run(source,max_steps=3000)
                 self.assertEqual(phase,result.phase)
                 self.assertIn(text,result.output if result.ok else result.message)
@@ -41,6 +43,17 @@ class JacarandaFinalTests(unittest.TestCase):
         result=run('int main(){ if(true || 1/0 > 0){print(9);} return 0;}')
         self.assertTrue(result.ok,result.message)
         self.assertEqual(result.output,'9')
+    def test_original_tree_viewer_accepts_lark(self):
+        result = check_source('int main(){return 0;}')
+        self.assertTrue(result.ok)
+        self.assertGreater(len(tree_layout(result.display_tree)[0]), 3)
+
+    def test_tree_available_even_if_sdt_rejects(self):
+        result = check_source('int x = true;')
+        self.assertFalse(result.ok)
+        self.assertIsNotNone(result.display_tree)
+        self.assertIn('Parsing Success!',result.formatted())
+
     def test_parse_tree_generated_by_library(self):
         self.assertIn('function',parse('int main(){return 0;}').pretty())
 

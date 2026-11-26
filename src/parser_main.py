@@ -1,9 +1,9 @@
 import sys
 from pathlib import Path
-from analysis_pipeline import analyze
+from lark_pipeline import check_source
 
 def analyze_source(source):
-    result = analyze(source)
+    result = check_source(source)
     print(result.formatted())
     return result.ok
 

@@ -3,9 +3,7 @@ import tkinter.font as tkfont
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
-from LexicalAnalyzer import Lexer
-from main import clasificar_token, obtener_posicion
-from analysis_pipeline import analyze as parse_and_check
+from lark_pipeline import check_source, execute_source
 from ParseTreeViewer import ParseTreeViewer
 
 
@@ -112,7 +110,7 @@ class LexerGUI:
 
     def __init__(self, root):
         self.root = root
-        self.root.title("Jacaranda - Lexer, Parser & SDT")
+        self.root.title("Jacaranda - Lexer, Parser, SDT & Interpreter")
         self._set_window_icon()
         self.root.geometry("1200x720")
         self.root.minsize(900, 600)
@@ -233,7 +231,7 @@ class LexerGUI:
 
         tk.Label(
             header,
-            text="Lexer / Parser / SDT",
+            text="Lexer / Parser / SDT / Interpreter",
             bg=self.JACARANDA_DARK,
             fg=self.JACARANDA_LIGHT,
             font=("Segoe UI", 10),
@@ -265,6 +263,13 @@ class LexerGUI:
             button_frame,
             text="Parser & SDT",
             command=self.analyze_parser_input,
+            style="Jacaranda.TButton",
+        ).pack(side="left", padx=(0, 8))
+
+        ttk.Button(
+            button_frame,
+            text="Run Program",
+            command=self.run_program,
             style="Jacaranda.TButton",
         ).pack(side="left", padx=(0, 8))
 
@@ -449,6 +454,7 @@ class LexerGUI:
         self.output_text.configure(state="disabled")
 
     def _format_lexical_error(self, code, error):
+        from main import obtener_posicion
         source_position = error.getsourcepos()
         index = source_position.idx
         line, column, line_text, visual_column = obtener_posicion(code, index)
@@ -474,7 +480,19 @@ class LexerGUI:
             self._set_output("No source code was entered.\nTotal of tokens: 0")
             return
 
-        lexer = Lexer().get_lexer()
+        try:
+            from LexicalAnalyzer import Lexer
+            from main import clasificar_token
+            lexer = Lexer().get_lexer()
+        except ImportError as error:
+            if error.name in ('rply', 'rply.errors'):
+                self._set_output(
+                    'The original Lexer requires RPLY.\n'
+                    'Install it with: python -m pip install -r requirements.txt\n'
+                    'Parser & SDT and Run Program use Lark independently.'
+                )
+                return
+            raise
 
         try:
             tokens = list(lexer.lex(code))
@@ -513,21 +531,29 @@ class LexerGUI:
         if not code.strip():
             self._set_output("Enter code to analyze.")
             return
-        self._set_output(parse_and_check(code).formatted())
+        self._set_output(check_source(code).formatted())
+
+    def run_program(self):
+        code = self.input_text.get("1.0", "end-1c")
+        if not code.strip():
+            self._set_output("Enter code to execute.")
+            return
+        result = execute_source(code)
+        self._set_output(result.formatted())
 
     def view_parse_tree(self):
         code = self.input_text.get("1.0", "end-1c")
         if not code.strip():
             messagebox.showinfo("Jacaranda", "Enter source code before viewing its parse tree.")
             return
-        result = parse_and_check(code)
+        result = check_source(code)
         self._set_output(result.formatted())
-        if result.parse_tree is None:
+        if result.display_tree is None:
             messagebox.showwarning("Parse Tree",
                 "The input must pass lexical and syntax analysis to build a tree.\n"
                 + result.formatted())
             return
-        ParseTreeViewer(self.root, result.parse_tree)
+        ParseTreeViewer(self.root, result.display_tree)
 
     def open_file(self):
         path = filedialog.askopenfilename(

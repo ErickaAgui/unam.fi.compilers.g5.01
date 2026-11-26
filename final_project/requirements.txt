@@ -1,4 +1,0 @@
-lark==1.3.1
-# tkinter is bundled with most desktop Python distributions
-# rply is required ONLY to run the previous-delivery legacy lexer:
-# rply==0.7.8
