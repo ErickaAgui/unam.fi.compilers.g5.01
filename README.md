@@ -1,139 +1,35 @@
-# Jacaranda | Lexical, Syntax and Semantic Analyzer
+# JACARANDA · Equipo 01 · UNAM FI · Compiladores
 
-Jacaranda is a Python project developed for the **Compilers** course at the Faculty of Engineering, National Autonomous University of Mexico (UNAM).
+Este repositorio contiene las **tres entregas** de Jacaranda sin perder el trabajo anterior.
 
-**Team 01 — Group 5**  
-**Semester 2027-1**
+## Proyecto final (1 de diciembre de 2026)
 
-The first part of the project was a lexical analyzer. The second part adds a **syntax analyzer (Parser)** and **semantic checks (SDT)**. Jacaranda recognizes a selected set of C-like instructions, checks how tokens are organized, and reports errors found during the analysis.
-
-This is an educational project. It **does not execute the entered code** or implement the complete C language.
-
-## Main Features
-
-### Lexical Analysis
-
-- Analyze source code typed by the user or loaded from a `.txt`, `.c`, or `.h` file.
-- Recognize keywords, identifiers, operators, constants, and punctuation.
-- Recognize the course-specific `print` keyword.
-- Handle integer, real, Boolean, and string constants.
-- Ignore whitespace and supported comments.
-- Display the token sequence and the total number of tokens.
-- Report unrecognized symbols and their location.
-- Use the original lexer developed with **RPLY**.
-
-### Syntax Analysis (Parser)
-
-- Check declarations, assignments, expressions, and blocks of statements.
-- Recognize functions, parameters, function calls, and return statements.
-- Recognize basic conditional and repetition statements: `if`, `else`, `while`, `for`, and `do-while`.
-- Apply operator precedence when processing expressions.
-- Build a parse tree to show the recognized grammatical structure.
-- Report syntax errors when the tokens do not follow the supported grammar.
-
-The parser follows a **top-down recursive-descent approach**: Python functions recognize the supported instructions without using an external parser generator.
-
-### Semantic Analysis (SDT)
-
-- Use a **symbol table** to keep track of declared variables and their types.
-- Check whether variables have been declared and avoid repeated declarations in the same block.
-- Check types used in declarations, assignments, and expressions.
-- Recognize functions and parameters; check that called functions exist and that return values have compatible types.
-- Report semantic errors separately from syntax errors.
-
-### User Interface
-
-- Analyze input using the lexer.
-- Run the Parser & SDT analysis from the graphical interface.
-- Open the **Parse Tree** viewer, zoom, and navigate through the tree.
-- Save the tree as SVG, PNG, or JPG.
-
-## Requirements
-
-- Python 3.10 or newer
-- RPLY 0.7.8
-- Pillow (for PNG/JPG export)
-- Tkinter (included with many Python installations)
-
-Install the Python dependencies from the project folder:
+**Intérprete educativo de un subconjunto de C.** La nueva implementación utiliza **Lark 1.3.1** para generar lexer y parser LALR y conserva una etapa propia de comprobación semántica, seguida de ejecución por recorrido del árbol. El lexer de RPLY y el parser descendente recursivo de las entregas anteriores **no se eliminaron**: permanecen en `src/` para preservar el historial y poder comparar enfoques.
 
 ```bash
 python -m pip install -r requirements.txt
+python final_project/src/main.py final_project/examples/03_loops.c
+python final_project/src/gui.py
+python -m unittest discover -s final_project/tests -v
 ```
 
-On Windows, `py` can be used instead of `python`.
+Resultado esperado del ejemplo de ciclos: `15`, `0`, `1`, `2` en el área de salida, precedidos por validación sintáctica y semántica exitosa.
 
-## How to Run
+La documentación completa está en [`final_project/README.md`](final_project/README.md) y el reporte en `final_project/docs/01-Compilers-FinalProject.pdf` (completar capturas propias antes de entregarlo).
 
-Graphical interface:
+## Entregas previas
 
-```bash
-python src/gui.py
-```
+- Lexer con RPLY: `src/LexicalAnalyzer.py`, `src/main.py`, `src/gui.py` (la interfaz anterior) y `docs/lexer/`.
+- Parser descendente recursivo y SDT manual: `src/Parser.py`, `src/SemanticAnalyzer.py`, `src/analysis_pipeline.py`, `src/parser_main.py`, `src/ParseTreeViewer.py` y `docs/parser_sdt/`.
+- Diagrama léxico: `lexical_diagrams/`; diagramas del parser manual: `parser_diagrams/`.
+- Ejemplos de entregas previas: `examples/lexer/`, `examples/parser_sdt/`.
 
-Lexical analyzer in the terminal:
+Las dos implementaciones NO tienen exactamente las mismas capacidades, interfaces o bibliotecas. El intérprete de Lark está separado en `final_project/` para evitar sobrescribir los módulos originales y poder hacer una revisión mediante pull request.
 
-```bash
-python src/main.py
-```
+## Entrega al profesor
 
-Parser & SDT with a sample file:
-
-```bash
-python src/parser_main.py examples/parser_sdt/21_function_main.c
-```
-
-## Examples and Tests
-
-- `examples/lexer/` contains the examples from the first delivery.
-- `examples/parser_sdt/` contains **34 numbered input examples**, including valid cases and cases with expected errors.
-- `tests/` contains automated checks for the parser, semantic analysis, and tree visualization.
-
-Run the tests from the repository root:
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-## Project Structure
-
-```text
-unam.fi.compilers.g5.01/
-├── assets/                  # Application icons
-├── docs/
-│   ├── lexer/               # Lexical analyzer report and presentation
-│   └── parser_sdt/          # Parser & SDT report
-├── examples/
-│   ├── lexer/               # Lexer examples
-│   └── parser_sdt/          # Parser & SDT examples
-├── lexical_diagrams/
-│   ├── diagrams_pdf/
-│   └── text/
-├── parser_diagrams/         # Parser and semantic-analysis diagrams
-├── project_management/
-├── src/
-│   ├── LexicalAnalyzer.py
-│   ├── Parser.py
-│   ├── SemanticAnalyzer.py
-│   ├── analysis_pipeline.py
-│   ├── parser_main.py
-│   ├── ParseTreeViewer.py
-│   ├── gui.py
-│   └── main.py
-├── tests/
-├── .gitignore
-├── README.md
-├── PARSER_README.md
-└── requirements.txt
-```
-
-## Documentation
-
-- [Parser & SDT documentation](PARSER_README.md)
-- [Lexical diagrams](lexical_diagrams/)
-- [Parser diagrams](parser_diagrams/)
-- [Course reports](docs/)
-
-## Repository
-
-https://github.com/ErickaAgui/unam.fi.compilers.g5.01
+- Subir este árbol a una **rama nueva** del repositorio del equipo y abrir pull request hacia `main`.
+- Revisar que el intérprete corre en Windows y que la GUI funciona.
+- Agregar capturas reales bien recortadas al reporte LaTeX (sin mostrar todo el escritorio).
+- Subir el reporte PDF actualizado y la presentación al directorio `final_project/docs/`.
+- Compartir el repositorio público; entrega indicada en la consigna: **1 de diciembre de 2026**.

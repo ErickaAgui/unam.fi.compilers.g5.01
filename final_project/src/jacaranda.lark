@@ -1,0 +1,60 @@
+// Jacaranda Final: C-like educational interpreter, parsed with Lark LALR.
+// Grammar is deliberately limited; this is NOT the complete C language.
+start: top*
+?top: function | statement
+function: TYPE NAME "(" parameters? ")" block     -> function
+parameters: parameter ("," parameter)*
+parameter: TYPE NAME
+block: "{" statement* "}"
+?statement: declaration ";"      -> statement_decl
+          | assignment ";"       -> statement_assign
+          | postfix ";"          -> statement_postfix
+          | call ";"             -> statement_call
+          | print_stmt ";"       -> statement_print
+          | "return" expr? ";"   -> return_stmt
+          | "if" "(" expr ")" statement ("else" statement)? -> if_stmt
+          | "while" "(" expr ")" statement -> while_stmt
+          | "for" "(" for_init? ";" for_condition? ";" for_update? ")" statement -> for_stmt
+          | "do" statement "while" "(" expr ")" ";" -> do_stmt
+          | block                 -> nested_block
+for_init: declaration | assignment
+for_condition: expr
+for_update: assignment | postfix
+TYPE.3: "int" | "float" | "double" | "bool" | "void" | "char"
+declaration: TYPE NAME ("=" expr)?
+assignment: NAME "=" expr
+postfix: NAME INCDEC
+INCDEC: "++" | "--"
+print_stmt: "print" "(" [args] ")" | "printf" "(" [args] ")"
+args: expr ("," expr)*
+call: NAME "(" [args] ")"
+?expr: or_expr
+?or_expr: and_expr ("||" and_expr)*  -> or_expr
+?and_expr: equality ("&&" equality)* -> and_expr
+?equality: comparison (EQ_OP comparison)* -> equality
+?comparison: additive (CMP_OP additive)* -> comparison
+?additive: multiplicative (ADD_OP multiplicative)* -> additive
+?multiplicative: unary (MUL_OP unary)* -> multiplicative
+?unary: UNARY_OP unary -> unary
+      | atom
+?atom: NUMBER -> number
+     | STRING -> string
+     | CHAR_LITERAL -> char_literal
+     | "true" -> true
+     | "false" -> false
+     | call
+     | NAME -> variable
+     | "(" expr ")" -> grouped
+EQ_OP: "==" | "!="
+CMP_OP: "<=" | ">=" | "<" | ">"
+ADD_OP: "+" | "-"
+MUL_OP: "*" | "/" | "%"
+UNARY_OP: "-" | "+" | "!"
+CHAR_LITERAL: /'([^'\\]|\\.)'/
+%import common.CNAME -> NAME
+%import common.SIGNED_NUMBER -> NUMBER
+%import common.ESCAPED_STRING -> STRING
+%import common.WS
+%ignore WS
+%ignore /\/\/[^\n]*/
+%ignore /\/\*(.|\n)*?\*\//
